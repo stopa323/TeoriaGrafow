@@ -6,9 +6,14 @@ Teachers = {
 };
 
 Classes = {
-  <"Algebra" 10>
-  <"Algebra2" 10>
-  <"Telecommunication", 20>
+  <"Algebra" 10 30>
+  <"Algebra2" 10 30>
+  <"Telecommunication" 20 60>
+};
+
+Rooms = {
+  <"D5/120" 30>
+  <"D5/500" 60>
 };
 
 // row -> teacher, column -> class
