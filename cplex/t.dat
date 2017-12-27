@@ -6,9 +6,9 @@ Teachers = {
 };
 
 Classes = {
-  <"Algebra" 10 30>
-  <"Algebra2" 10 30>
-  <"Telecommunication" 20 60>
+  <"Algebra" 2 30>
+  <"Algebra2" 2 30>
+  <"Telecommunication" 2 60>
 };
 
 Rooms = {
@@ -21,4 +21,18 @@ TeacherExpertise = [
   [0 0 1] // e.g. Hulio is unable to give Algebra lessons but is eager to explain differences between link and lane
   [1 1 0]
   [1 1 0]
+];
+
+Days = {
+  "Monday"
+//  "Tuesday"
+//  "Wednesday"
+//  "Thursday"
+//  "Friday"
+};
+
+TeacherPreferences = [
+  [[1 1 0 0]] // e.g. Hulio prefers giving lessons in 1st and 2nd slot of Monday (Mon. 8:00-8:30)
+  [[1 0 0 1]]
+  [[0 1 1 1]]
 ];
