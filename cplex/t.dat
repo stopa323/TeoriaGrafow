@@ -1,0 +1,19 @@
+
+Teachers = {
+  <"Hulio">
+  <"Adamus">
+  <"Adamus Jr">
+};
+
+Classes = {
+  <"Algebra" 10>
+  <"Algebra2" 10>
+  <"Telecommunication", 20>
+};
+
+// row -> teacher, column -> class
+TeacherExpertise = [
+  [0 0 1] // e.g. Hulio is unable to give Algebra lessons but is eager to explain differences between link and lane
+  [1 1 0]
+  [1 1 0]
+];
