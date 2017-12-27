@@ -1,3 +1,24 @@
+/**
+# Helpful links:
+  https://www.ibm.com/support/knowledgecenter/SSSA5P_12.4.0/ilog.odms.ide.help/examples/html/opl/nurses/nurses.mod.html
+  https://www.ibm.com/support/knowledgecenter/SSSA5P_12.4.0/ilog.odms.ide.help/examples/html/opl/nurses/nurses.dat.html
+  http://sal.aalto.fi/publications/pdf-files/esan12_public.pdf
+
+# TODOs:
+  * Objective function:
+    - add students preferences (optional)
+  * Constraints:
+    - class has to be assigned to continuous set of slots, situation when 30 min
+      class is split into two slots e.g. 8:30-8:45, 10:00-10:15 is forbidden
+    - only one class can be assigned to the room in a given time
+    - only one class can be assigned to the teacher in a given time
+    - table, computer, swimming pool requirements
+  * Constraints or obj function, not sure, but obj func most likely:
+    - min/max break for the teacher (optional)
+    - max class slots in row for the teacher (optional)
+**/
+
+
 /*** Data type definitions ***/
 tuple teacher {
   key string name;                  // name of the teacher
@@ -7,11 +28,17 @@ tuple class {
   key string name;                  // name of the class
   int duration;                     // duration (time slots) of the class
   int req_seets;                    // required seets for the class
+//  boolean req_table;                // table is required for that class
+//  boolean req_comp;                 // computers are required for that class
+//  boolean req_swim_pool;            // swimming pool is required for that class
 }
 
 tuple room {
   key string address;               // address of the room (e.g. "D5/125")
   int seets;                        // available seets in the room
+//  boolean has_table;                // room has table
+//  boolean has_comp;                 // room has computers
+//  boolean has_swim_pool;            // room has swimming pool
 }
 
 
@@ -47,6 +74,7 @@ dvar int+ RoomAssignments[Rooms][Classes] in 0..1;
 dvar int+ ClassAssignments[Classes][Days][Slots] in 0..1;
 
 
+/*** Objective function ***/
 maximize
 // Take under consideration only those <t,c,d,s> tuples where teacher has expertise
 // TeacherAssignments[t][c] :
