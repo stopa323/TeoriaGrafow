@@ -25,21 +25,21 @@
 
 /*** Data type definitions ***/
 tuple teacher {
-  key string name;                  // name of the teacher
+  key string name;              // name of the teacher
 }
 
 tuple class {
-  key string name;                  // name of the class
-  int duration;                     // duration (time slots) of the class
-  int req_seets;                    // required seets for the class
+  key string name;              // name of the class
+  int duration;                 // duration (time slots) of the class
+  int req_seets;                // required seets for the class
   int req_table;                // table is required for that class
   int req_comp;                 // computers are required for that class
   int req_swim_pool;            // swimming pool is required for that class
 }
 
 tuple room {
-  key string address;               // address of the room (e.g. "D5/125")
-  int seets;                        // available seets in the room
+  key string address;           // address of the room (e.g. "D5/125")
+  int seets;                    // available seets in the room
   int has_table;                // room has table
   int has_comp;                 // room has computers
   int has_swim_pool;            // room has swimming pool
@@ -88,71 +88,77 @@ maximize
 //      0 if class has not been assigned to preffered slot
 //      1 otherwise
 sum(t in Teachers, c in Classes, d in Days, s in Slots : TeacherExpertise[t][c] == 1)
-  (TeacherAssignments[t][c] * ClassAssignments[c][d][s] * TeacherPreferences[t][d][s]);
+  ( TeacherAssignments[t][c] + ClassAssignments[c][d][s] + TeacherPreferences[t][d][s]);
 
 /*** Constraints ***/
 subject to {
-  // Teacher must be assigned to exactly 1 class
-  // @TODO: replace with: cannot have several classes in the same time - DONE
-  //forall(t in Teachers) {
-  //  sum(c in Classes) (TeacherAssignments[t][c]) == 1;
-  //}
-  forall(t in Teachers, c in Classes) {
-    sum(c2 in Classes, d in Days, s in Slots: c.name != c2.name)  (ClassAssignments[c][d][s] * ClassAssignments[c2][d][s] * TeacherAssignments[t][c] * TeacherAssignments[t][c2]) == 0;
+  // Teacher cannot have several classes in the same time
+  forall(t in Teachers, d in Days, s in Slots, c in Classes, c2 in Classes: c.name != c2.name) {
+  a1:
+    TeacherAssignments[t][c] + TeacherAssignments[t][c2] + ClassAssignments[c][d][s] + ClassAssignments[c2][d][s] <= 3;
   }
-
 
   // Teacher must not be assigned to class (s)he cannot give
   forall(t in Teachers, c in Classes : TeacherExpertise[t][c] == 0) {
+  a2:
     TeacherAssignments[t][c] == 0;
   }
 
   // Each class must have teacher assigned
   forall(c in Classes) {
+  a3:
     sum(t in Teachers) (TeacherAssignments[t][c]) >= 1;
   }
 
   // Each class must have exactly 1 room assigned
   forall(c in Classes) {
+  a4:
     sum(r in Rooms) (RoomAssignments[r][c]) == 1;
+  }
+
+  // Each class must have exactly 1 teacher assigned
+  forall(c in Classes) {
+  a100:
+    sum(t in Teachers) (TeacherAssignments[t][c]) == 1;
   }
 
   // Assigned room must have enough seets
   // @TODO(optional): prefer rooms with just enough seets
   forall(c in Classes, r in Rooms : c.req_seets > r.seets) {
+  a5:
     RoomAssignments[r][c] == 0;
   }
 
   // Assign only as much time as it is required
   forall(c in Classes) {
+  a6:
     sum(d in Days, s in Slots) (ClassAssignments[c][d][s]) == c.duration;
   }
 
-  // TODO: two classes cannot be placed in same room in the same time
-  // Code below is not working
-  //forall(r in Rooms, c in Classes) {
-  //  sum(c2 in Classes, d in Days, s in Slots : c.name != c2.name) (abs(ClassAssignments[c][d][s] - ClassAssignments[c2][d][s])) == 0;
-  //}
-  forall(r in Rooms, c in Classes) {
-    sum(c2 in Classes, d in Days, s in Slots: c.name != c2.name)  (ClassAssignments[c][d][s] * ClassAssignments[c2][d][s] * RoomAssignments[r][c] * RoomAssignments[r][c2]) == 0;
+  // Two classes cannot be placed in same room in the same time
+  forall(r in Rooms, c in Classes, d in Days, s in Slots, c2 in Classes: c.name != c2.name ) {
+  a7:
+    ClassAssignments[c][d][s] + ClassAssignments[c2][d][s] + RoomAssignments[r][c] + RoomAssignments[r][c2] <= 3;
   }
- 
-  
-  
-  
+
   //table requirement
   forall(c in Classes, r in Rooms: c.req_table == 1 && r.has_table == 0) {
+  a8:
     RoomAssignments[r][c] == 0;
-  }    
+  }
+
   //computer requirement
   forall(c in Classes, r in Rooms: c.req_comp == 1 && r.has_comp == 0) {
+  a9:
     RoomAssignments[r][c] == 0;
   }
+
   //swimming pool requirement
   forall(c in Classes, r in Rooms: c.req_swim_pool == 1 && r.has_swim_pool == 0) {
+  a10:
     RoomAssignments[r][c] == 0;
   }
-  
+
 }
 
 
