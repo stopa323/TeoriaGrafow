@@ -61,7 +61,7 @@ int TeacherExpertise[Teachers][Classes] = ...;
 // time span of each Day e.g.
 //  12 slots: 12*15/60 = 3 [hr]
 //  Classes can be given between 8 and 11 each day
-range Slots = 0..3;
+range Slots = 0..55;
 
 // Preferences of each teacher for every for every slot (1 is prefered, 0 is not)
 int TeacherPreferences[Teachers][Days][Slots] = ...;
