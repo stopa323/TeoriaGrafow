@@ -59,9 +59,9 @@ int TeacherExpertise[Teachers][Classes] = ...;
 
 // Each slot lasts 15 minutes with first starting at 8am; number of slots defines
 // time span of each Day e.g.
-//  12 slots: 12*15/60 = 3 [hr]
-//  Classes can be given between 8 and 11 each day
-range Slots = 0..55;
+//  48 slots: 48*15/60 = 12 [hr]
+//  Classes can be given between 8 and 20 each day
+range Slots = 0..19;
 
 // Preferences of each teacher for every for every slot (1 is prefered, 0 is not)
 int TeacherPreferences[Teachers][Days][Slots] = ...;
