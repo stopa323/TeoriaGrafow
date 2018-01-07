@@ -9,7 +9,7 @@ alphabet = 'abcdefghijklmnoprtsquwrtsxyz'
 lata_studiow = 5
 kursy = []
 
-for wydzial in alphabet[0:5]:
+for wydzial in alphabet[0:2]:
     for rok in range(2012, lata_studiow + 2012):
         kursy.append(wydzial + str(rok))
 
@@ -106,12 +106,12 @@ conn.commit()
 
 ### Zajecia
 dlugosc_zajec = [90,90,90,90,90,90,120,180]
-c.execute("SELECT id FROM camup_kurs ORDER BY RANDOM() LIMIT 1;")
-kurs_id = [x[0] for x in c][0]
-c.execute("SELECT id FROM auth_user WHERE is_staff =1 and is_superuser = 0 ORDER BY RANDOM() LIMIT 1;")
-prowadzacy_id = [x[0] for x in c][0]
 for kurs in kursy:
-    for char in alphabet:
+    for char in alphabet[0:8]:
+        c.execute("SELECT id FROM camup_kurs ORDER BY RANDOM() LIMIT 1;")
+        kurs_id = [x[0] for x in c][0]
+        c.execute("SELECT id FROM auth_user WHERE is_staff =1 and is_superuser = 0 ORDER BY RANDOM() LIMIT 1;")
+        prowadzacy_id = [x[0] for x in c][0]
         c.execute("INSERT INTO camup_zajecia (nazwa_zajec,liczba_minut_w_tygodniu, mozliwe_sale, Kurs_id, odpowiedzialny_nauczyciel_id) VALUES(?,?,?,?,?)",
                   ('kurs_'+kurs+'zajecia_'+char, dlugosc_zajec[randint(0, 7)], " ", kurs_id, prowadzacy_id))
     conn.commit()
