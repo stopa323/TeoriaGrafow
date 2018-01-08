@@ -61,7 +61,7 @@ int TeacherExpertise[Teachers][Classes] = ...;
 // time span of each Day e.g.
 //  48 slots: 48*15/60 = 12 [hr]
 //  Classes can be given between 8 and 20 each day
-range Slots = 0..19;
+range Slots = 0..23;
 
 // Preferences of each teacher for every for every slot (1 is prefered, 0 is not)
 int TeacherPreferences[Teachers][Days][Slots] = ...;
@@ -88,7 +88,7 @@ maximize
 //      0 if class has not been assigned to preffered slot
 //      1 otherwise
 sum(t in Teachers, c in Classes, d in Days, s in Slots : TeacherExpertise[t][c] == 1)
-  ( TeacherAssignments[t][c] + ClassAssignments[c][d][s] + TeacherPreferences[t][d][s]);
+  ( TeacherAssignments[t][c] * TeacherPreferences[t][d][s] + ClassAssignments[c][d][s]);
 
 /*** Constraints ***/
 subject to {
