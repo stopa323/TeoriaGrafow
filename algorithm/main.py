@@ -147,8 +147,14 @@ def main():
         del obj._classes[counter]
         counter += 1
 
+    obj_ = 0
     for teacher in obj._teachers.values():
         print(teacher.schedule)
+        x = np.array([1 if x else 0 for x in teacher.schedule])
+        teacher_obj = x * teacher.orig_pref
+        obj_ += teacher_obj
+
+    print(sum(obj_))
 
 
 if __name__ == '__main__':

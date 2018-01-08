@@ -1,5 +1,7 @@
+import copy
 import logging
 import numpy as np
+
 
 LOG = logging.getLogger(__name__)
 
@@ -25,6 +27,7 @@ class Teacher(BaseResource):
         super(Teacher, self).__init__(id, name)
         self.expertise = expertise
         self.pref_mtx = preferences
+        self.orig_pref = copy.deepcopy(self.pref_mtx)
         self.max_class_mtx = np.ones(preferences.shape)
         self.max_break_mtx = np.ones(preferences.shape)
         self.min_break_mtx = np.ones(preferences.shape)

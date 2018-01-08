@@ -2,6 +2,11 @@ import numpy as np
 import structures
 
 
+# Scenario 2 => class 11 is removed from t5's expertise
+
+# Scenario 3 => remove has_swim_pool flag from room 6 => alg error no solution
+
+
 def load_classes():
     # Scenario 1
     c1 = structures.Class(1, "Class1", 3, 15)
@@ -14,7 +19,7 @@ def load_classes():
     c8 = structures.Class(8, "Class8", 8, 100)
     c9 = structures.Class(9, "Class9", 6, 60)
     c10 = structures.Class(10, "Class10", 3, 15)
-    c11 = structures.Class(11, "Class11", 12, 60, False, False, True)
+    c11 = structures.Class(11, "Class11", 12, 60, True, False, False)
     return {c1.id: c1,
             c2.id: c2,
             c3.id: c3,
@@ -60,7 +65,7 @@ def load_teachers():
     t1 = structures.Teacher(
         1, "Teacher_1",
         np.array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
-                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]),
+                  1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]),
         set([1, 2, 11]), 1, 1, 1)
     t2 = structures.Teacher(
         2, "Teacher_2",
