@@ -8,7 +8,7 @@ LOG = logging.getLogger(__name__)
 
 class SmartAss(object):
 
-    NUMBER_OF_SLOTS = 6
+    NUMBER_OF_SLOTS = 24
 
     def __init__(self):
         self._classes = fixtures.load_classes()

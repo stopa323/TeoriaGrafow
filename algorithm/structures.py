@@ -19,8 +19,7 @@ class Teacher(BaseResource):
     W2 = 0.2
     W3 = 0.1
     W4 = 0.1
-    NUMBER_OF_SLOTS = 6
-
+    NUMBER_OF_SLOTS = 24
 
     def __init__(self, id, name, preferences, expertise, max_classes, max_break, min_break):
         super(Teacher, self).__init__(id, name)
@@ -45,7 +44,7 @@ class Teacher(BaseResource):
 
 class Class(BaseResource):
 
-    NUMBER_OF_SLOTS = 6
+    NUMBER_OF_SLOTS = 24
 
     def __init__(self, id, name, duration, req_seats, req_table=False,
                  req_comp=False, req_swim_pool=False):
